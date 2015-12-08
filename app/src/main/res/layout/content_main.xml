@@ -14,21 +14,51 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:text="Control Remoto Servomotor"
+        android:text="@string/main_title"
         android:textSize="18dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"/>
 
-    <Button
-        android:id="@+id/changeDirectionBtn"
-        android:background="@android:color/holo_blue_dark"
+    <TextView
+        android:id="@+id/statusTV"
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="-   -   -"/>
+
+    <Button
+        android:id="@+id/turnClockwiseBtn"
+        android:background="@android:color/holo_blue_dark"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
         android:padding="10dp"
-        android:text="Cambiar sentido de giro"
+        android:text="@string/turn_clockwise"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/turnCounterClockwiseBtn"
+        android:background="@android:color/holo_blue_dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:text="@string/turn_counterclockwise"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/turnStopBtn"
+        android:background="@android:color/holo_blue_dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:text="@string/turn_stop"
         android:textColor="@android:color/white"/>
 
 </LinearLayout>

@@ -1,4 +1,15 @@
 <resources>
-    <string name="app_name">IoTNoobAndroidClient</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">IoT Servo Control</string>
+    <string name="action_settings">Configuración</string>
+
+    <string name="main_title">Control del Servomotor</string>
+    <string name="info_about">Sistemas Programables</string>
+
+    <string name="turn_clockwise">En sentido del reloj</string>
+    <string name="turn_counterclockwise">En contra del sentido del reloj</string>
+    <string name="turn_stop">Detener el motor</string>
+
+    <string name="status_clockwise">Girando en sentido del reloj</string>
+    <string name="status_counterclockwise">Girando en contra del reloj</string>
+    <string name="status_stop">Motor detenido</string>
 </resources>

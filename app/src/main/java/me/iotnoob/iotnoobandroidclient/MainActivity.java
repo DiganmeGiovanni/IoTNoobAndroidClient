@@ -6,25 +6,21 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    final String BACKEND_URL = "http://192.168.100.8";
-
-    boolean flag = true;
+    final String BACKEND_URL = "http://192.168.100.6";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Puños Plata", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, getString(R.string.info_about), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -71,29 +67,49 @@ public class MainActivity extends AppCompatActivity {
      */
     private void configureListeners() {
 
-        // Change direction button
-        Button changeDirectionBtn = (Button) findViewById(R.id.changeDirectionBtn);
-        changeDirectionBtn.setOnClickListener(new View.OnClickListener() {
+        // Turn servo clockwise
+        Button turnClockwiseBtn = (Button) this.findViewById(R.id.turnClockwiseBtn);
+        turnClockwiseBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
+                setStatus(1);
                 new Thread(new Runnable() {
                     public void run() {
                         OkHttpClient client = new OkHttpClient();
 
-                        String servoDirection = "1";
-                        if (flag) {
-                            servoDirection = "0";
-                        }
-                        flag = !flag;
-
-                        RequestBody formBody = new FormEncodingBuilder()
-                                .add("servoDirection", servoDirection)
-                                .build();
                         Request request = new Request.Builder()
-                                .url(BACKEND_URL + "/api/setServoDirection")
-                                .post(formBody)
+                                .url(BACKEND_URL + "/api/servo/turnClockwise")
+                                .build();
+
+                        try {
+                            Response response = client.newCall(request).execute();
+                            Log.w("TAG", response.body().string());
+
+                        }
+                        catch(IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+        });
+
+        // Turn servo counterclockwise
+        Button turnCounterClockwise = (Button) this.findViewById(R.id.turnCounterClockwiseBtn);
+        turnCounterClockwise.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                setStatus(0);
+                new Thread(new Runnable() {
+                    public void run() {
+                        OkHttpClient client = new OkHttpClient();
+
+                        Request request = new Request.Builder()
+                                .url(BACKEND_URL + "/api/servo/turnNoClockwise")
                                 .build();
 
                         try {
@@ -107,5 +123,50 @@ public class MainActivity extends AppCompatActivity {
                 }).start();
             }
         });
+
+        // Stops the servo
+        Button stopServoBtn = (Button) this.findViewById(R.id.turnStopBtn);
+        stopServoBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                setStatus(2);
+                new Thread(new Runnable() {
+                    public void run() {
+                        OkHttpClient client = new OkHttpClient();
+
+                        Request request = new Request.Builder()
+                                .url(BACKEND_URL + "/api/servo/stop")
+                                .build();
+
+                        try {
+                            Response response = client.newCall(request).execute();
+                            Log.w("TAG", response.body().toString());
+
+                        }
+                        catch(IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+        });
     }
-}
+
+    private void setStatus(int status) {
+        TextView statusTV = (TextView) this.findViewById(R.id.statusTV);
+
+        switch (status) {
+            case 0:
+                statusTV.setText(getString(R.string.status_counterclockwise));
+                break;
+            case 1:
+                statusTV.setText(getString(R.string.status_clockwise));
+                break;
+            case 2:
+                statusTV.setText(getString(R.string.status_stop));
+                break;
+        }
+    }
+ }
