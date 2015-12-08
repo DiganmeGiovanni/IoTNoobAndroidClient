@@ -20,7 +20,7 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    final String BACKEND_URL = "http://192.168.100.6";
+    final String BACKEND_URL = "http://192.241.215.123";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
